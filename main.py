@@ -64,7 +64,7 @@ def upload_new():
     window_upload_new.title('Новые лица')
     window_upload_new.resizable(False, False)
     window_upload_new.geometry('800x300')
-    img = tk.PhotoImage(file="/Users/valeriadudina/Downloads/back3.png")
+    img = tk.PhotoImage(file="back3.png")
     limg = tk.Label(window_upload_new, image=img)
     limg.place(x=0, y=0)
     btn_back=tk.Button(window_upload_new,text="Назад",
@@ -117,7 +117,7 @@ def send_data():
     root2.title('Готово')
     root2.resizable(False, False)
     root2.geometry('800x300')
-    img = tk.PhotoImage(file="/Users/valeriadudina/Downloads/back3.png")
+    img = tk.PhotoImage(file="back3.png")
     limg = tk.Label(root2, image=img)
     limg.place(x=0, y=0)
     lab_201=tk.Label(root2, text="Пользователь успешно добавлен", background='black')
@@ -194,7 +194,7 @@ def detect_user():
     root3.title('Проверить')
     root3.resizable(False, False)
     root3.geometry('800x300')
-    img = tk.PhotoImage(file="/Users/valeriadudina/Downloads/back3.png")
+    img = tk.PhotoImage(file="back3.png")
     limg = tk.Label(root3, image=img)
     limg.place(x=0, y=0)
 
@@ -222,7 +222,7 @@ def detect_user():
 '''
 name=''
 photo=''
-img = tk.PhotoImage(file="/Users/valeriadudina/Downloads/back3.png")
+img = tk.PhotoImage(file="back3.png")
 limg= tk.Label(root, image=img)
 limg.place(x=0, y=0)
 
@@ -257,7 +257,7 @@ root.geometry('920x1029')
 
 #background
 
-img = tk.PhotoImage(file="/Users/valeriadudina/Downloads/autotupik.png")
+img = tk.PhotoImage(file="autotupik.png")
 limg= tk.Label(root, image=img)
 limg.place(x=0, y=0)
 btn1=tk.Button(text="Добавить новые лица",
