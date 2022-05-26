@@ -16,7 +16,7 @@ def upload_new():
         def upload_archive():
             print(filetype)
             #Даня, пиши сюда
-            
+
         if filetype==1:
             filetypes = [('all files', '.*'),
                          ('text files', '.txt'),
@@ -35,7 +35,7 @@ def upload_new():
 
         entry_photo.insert(0, filename)
         btn_upload=ttk.Button(window_upload_new, text='Загрузить файл', command=upload_archive)
-        btn_upload.place(x=120, y=120)
+        btn_upload.place(x=250, y=250)
 
 
         showinfo(
@@ -45,13 +45,13 @@ def upload_new():
     def package():
         entry_photo = tk.Entry(window_upload_new, width=30)
         open_button= ttk.Button(window_upload_new,text='Открыть файл',command=lambda:select_file(2, entry_photo))
-        entry_photo.place(x=0, y=50)
-        open_button.place(x=0,y=150)
+        entry_photo.place(x=150, y=200)
+        open_button.place(x=450,y=200)
     def oneandonly():
         entry_photo = tk.Entry(window_upload_new, width=30)
         open_button = ttk.Button(window_upload_new, text='Открыть файл', command=lambda:select_file(1, entry_photo))
-        entry_photo.place(x=0, y=50)
-        open_button.place(x=0, y=150)
+        entry_photo.place(x=150, y=200)
+        open_button.place(x=450, y=200)
 
 
     def back2main():
@@ -79,10 +79,54 @@ def upload_new():
     window_upload_new.mainloop()
 
 def begin_work():
-    print(2)
+    def next_():
+        print('next')
+        window_begin_work2 = tk.Toplevel()
+        window_begin_work2.title('Натитровали')
+        window_begin_work2.resizable(False, False)
+        window_begin_work2.geometry('800x100')
+        fio="Дудина Валерия Романовна"
+        role="Прекрасная женщина, принцесса, королева"
+        img_titr = tk.PhotoImage(file="titr_template.png")
+        limg_titr = tk.Label(window_begin_work2, image=img_titr)
+        limg_titr.place(x=0, y=0)
+        text=tk.Label(text=fio)
+        canvas = Canvas(window_begin_work2, height=100, width=800, bg="#ccf9ff")
+        canvas.create_text(300, 20, text=fio, fill="black", font=('Helvetica 15 bold'))
+        canvas.create_text(300, 50, text=role, fill="black", font=('Helvetica 15 bold'))
+        canvas.pack()
+        window_begin_work2.mainloop()
 
 
 
+        #тут писать c Настей
+
+    def back2main():
+        window_begin_work.destroy()
+        root.deiconify()
+
+
+    window_begin_work = tk.Toplevel()
+    window_begin_work.title('Титруемся')
+    window_begin_work.resizable(False, False)
+    window_begin_work.geometry('800x300')
+    img = tk.PhotoImage(file="/Users/valeriadudina/Downloads/back3.png")
+    limg = tk.Label(window_begin_work, image=img)
+    limg.place(x=0, y=0)
+    btn_back=tk.Button(window_begin_work,text="Назад",
+            command=back2main)
+    btn_back.place(x=0,y=0)
+    img_setup = tk.PhotoImage(file="setup_odbs.png")
+    limg_setup = tk.Label(window_begin_work, image=img_setup)
+    limg_setup.place(x=200, y=130)
+
+    setup_text=tk.Label(window_begin_work, text="Включите, что надо включить, а что не надо не включайте")
+    setup_text.place(x=200, y=100)
+
+    btn_next=tk.Button(window_begin_work,text="Далее",
+            command=next_)
+    btn_next.place(x=230, y=250)
+    window_begin_work.mainloop()
 
 def select_file():
     filetypes = [('all files', '.*'),
@@ -253,11 +297,11 @@ check_button.place(x=270, y=250)
 root = tk.Tk()
 root.title('Титровалка')
 root.resizable(True, True)
-root.geometry('920x1029')
+root.geometry('800x300')
 
 #background
 
-img = tk.PhotoImage(file="/Users/valeriadudina/Downloads/autotupik.png")
+img = tk.PhotoImage(file="/Users/valeriadudina/Downloads/back3.png")
 limg= tk.Label(root, image=img)
 limg.place(x=0, y=0)
 btn1=tk.Button(text="Добавить новые лица",
@@ -265,8 +309,8 @@ btn1=tk.Button(text="Добавить новые лица",
 btn2 = tk.Button(text="Начать работу",
             width=15, height=3, command=begin_work)
 
-btn1.place(x=350, y=400)
-btn2.place(x=600, y=400)
+btn1.place(x=150, y=150)
+btn2.place(x=400, y=150)
 
 
 root.mainloop()
