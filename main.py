@@ -1,3 +1,4 @@
+import json
 import tkinter as tk
 import os
 from tkinter import ttk
@@ -8,7 +9,12 @@ from tkinter.ttk import *
 import requests
 from PIL import Image
 from functools import partial
-
+import requests
+import time
+import tkinter as tk
+from tkinter import filedialog as fd
+from PIL import ImageGrab
+import pyautogui
 
 
 def upload_new():
@@ -17,7 +23,7 @@ def upload_new():
             print(filetype)
             #Даня, пиши сюда
 
-        if filetype==1:
+        if filetype == 1:
             filetypes = [('all files', '.*'),
                          ('text files', '.txt'),
                          ('image files', '.png'),
@@ -64,7 +70,7 @@ def upload_new():
     window_upload_new.title('Новые лица')
     window_upload_new.resizable(False, False)
     window_upload_new.geometry('800x300')
-    img = tk.PhotoImage(file="/Users/valeriadudina/Downloads/back3.png")
+    img = tk.PhotoImage(file="back3.png")
     limg = tk.Label(window_upload_new, image=img)
     limg.place(x=0, y=0)
     btn_back=tk.Button(window_upload_new,text="Назад",
@@ -80,26 +86,60 @@ def upload_new():
 
 def begin_work():
     def next_():
+        def detect_user(file_path: str) -> dict:
+            extention = file_path.split(".")[-1]
+            with open(file_path, "rb") as f:
+                chunk = f.read(15 * 1024 * 1024)  # 50 MB
+
+                res = requests.post(
+                    f"{url}/detect_user",
+                    params={"extention": extention},
+                    files={"file_data": chunk},
+                )
+
+                return res
+
+        def detect_user_from_dir(image_path: str):
+            while True:
+                res = detect_user(image_path)
+                print("detect_user_from_dir")
+                if res.status_code == 201:
+                    det_user = json.loads(res.text)
+                    fio = det_user.get('name')
+                    print(fio)
+                    # role = det_user.get('info')
+                    limg_setup.destroy()
+
+                    setup_text.config(text=fio)
+                elif res.status_code == 404:
+                    print('Not Found.')
+                else:
+                    print('errorsssssssss')
+
+                time.sleep(1)
+
+
         print('next')
-        window_begin_work2 = tk.Toplevel()
-        window_begin_work2.title('Натитровали')
-        window_begin_work2.resizable(False, False)
-        window_begin_work2.geometry('800x100')
-        fio="Дудина Валерия Романовна"
-        role="Прекрасная женщина, принцесса, королева"
-        img_titr = tk.PhotoImage(file="titr_template.png")
-        limg_titr = tk.Label(window_begin_work2, image=img_titr)
-        limg_titr.place(x=0, y=0)
-        text=tk.Label(text=fio)
-        canvas = Canvas(window_begin_work2, height=100, width=800, bg="#ccf9ff")
-        canvas.create_text(300, 20, text=fio, fill="black", font=('Helvetica 15 bold'))
-        canvas.create_text(300, 50, text=role, fill="black", font=('Helvetica 15 bold'))
-        canvas.pack()
-        window_begin_work2.mainloop()
+        url = "http://51.250.8.218:8000"
+        # window_begin_work2 = tk.Toplevel()
+        # window_begin_work2.title('Натитровали')
+        # window_begin_work2.resizable(False, False)
+        # window_begin_work2.geometry('800x100')
+        # # img_titr = tk.PhotoImage(file="titr_template.png")
+        # # limg_titr = tk.Label(window_begin_work2, image=img_titr)
+        # # limg_titr.place(x=0, y=0)
+        # label = Label()
+        # label.pack()
+        detect_user_from_dir("photo.png")
+        # window_begin_work2.mainloop()
+        # fio="Дудина Валерия Романовна"
+        # role="Прекрасная женщина, принцесса, королева"
+        # img_titr = tk.PhotoImage(file="titr_template.png")
+        # limg_titr = tk.Label(window_begin_work2, image=img_titr)
+        # limg_titr.place(x=0, y=0)
+        # text=tk.Label(text=fio)
 
 
-
-        #тут писать c Настей
 
     def back2main():
         window_begin_work.destroy()
@@ -110,7 +150,7 @@ def begin_work():
     window_begin_work.title('Титруемся')
     window_begin_work.resizable(False, False)
     window_begin_work.geometry('800x300')
-    img = tk.PhotoImage(file="/Users/valeriadudina/Downloads/back3.png")
+    img = tk.PhotoImage(file="back3.png")
     limg = tk.Label(window_begin_work, image=img)
     limg.place(x=0, y=0)
     btn_back=tk.Button(window_begin_work,text="Назад",
@@ -128,69 +168,71 @@ def begin_work():
     btn_next.place(x=230, y=250)
     window_begin_work.mainloop()
 
-def select_file():
-    filetypes = [('all files', '.*'),
-               ('text files', '.txt'),
-               ('image files', '.png'),
-               ('image files', '.jpg'),
-                 ('image files', '.jpeg')
-           ]
+#
+# def select_file():
+#     filetypes = [('all files', '.*'),
+#                ('text files', '.txt'),
+#                ('image files', '.png'),
+#                ('image files', '.jpg'),
+#                  ('image files', '.jpeg')
+#            ]
+#
+#     filename = fd.askopenfilename(
+#         title='Open a file',
+#         initialdir='/',
+#         filetypes=filetypes)
+#
+#     entry_photo.insert(0,filename)
+#
+#
+#
+#     showinfo(
+#         title='Selected File',
+#         message=filename
+#     )
+#
+# def send_data():
+#     def back_to_main():
+#         print('smth')
+#         root2.destroy()
+#
+#         root.deiconify()
+#
+#     root2 = tk.Toplevel()
+#     root2.title('Готово')
+#     root2.resizable(False, False)
+#     root2.geometry('800x300')
+#     img = tk.PhotoImage(file="back3.png")
+#     limg = tk.Label(root2, image=img)
+#     limg.place(x=0, y=0)
+#     lab_201=tk.Label(root2, text="Пользователь успешно добавлен", background='black')
+#     lab_422 = tk.Label(root2, text="Неверные данные, попробуйте еще раз", background='black')
+#
+#     btn_back=tk.Button(root2,text="Добавить еще одного пользователя",command=back_to_main)
+#
+#
+#     extention = entry_photo.get().split(".")[-1]
+#     url = "http://51.250.8.218:8000"
+#     with open(entry_photo.get(), "rb") as f:
+#         chunk = f.read(15 * 1024 * 1024)
+#         res = requests.post(
+#             f"{url}/user",
+#             params={"extention": extention, "fio": entry_fio.get()},
+#             files={"file_data": chunk},
+#         )
+#     if res.status_code==201:
+#         lab_201.place(x=230, y=100)
+#         btn_back.place(x=200, y=200)
+#
+#     if res.status_code==422:
+#         lab_422.place(x=230, y=100)
+#         btn_back.place(x=200, y=200)
+#
+#
+#
+#     #root.destroy()
+#     root2.mainloop()
 
-    filename = fd.askopenfilename(
-        title='Open a file',
-        initialdir='/',
-        filetypes=filetypes)
-
-    entry_photo.insert(0,filename)
-
-
-
-    showinfo(
-        title='Selected File',
-        message=filename
-    )
-
-def send_data():
-    def back_to_main():
-        print('smth')
-        root2.destroy()
-
-        root.deiconify()
-
-    root2 = tk.Toplevel()
-    root2.title('Готово')
-    root2.resizable(False, False)
-    root2.geometry('800x300')
-    img = tk.PhotoImage(file="/Users/valeriadudina/Downloads/back3.png")
-    limg = tk.Label(root2, image=img)
-    limg.place(x=0, y=0)
-    lab_201=tk.Label(root2, text="Пользователь успешно добавлен", background='black')
-    lab_422 = tk.Label(root2, text="Неверные данные, попробуйте еще раз", background='black')
-
-    btn_back=tk.Button(root2,text="Добавить еще одного пользователя",command=back_to_main)
-
-
-    extention = entry_photo.get().split(".")[-1]
-    url = "http://51.250.8.218:8000"
-    with open(entry_photo.get(), "rb") as f:
-        chunk = f.read(15 * 1024 * 1024)
-        res = requests.post(
-            f"{url}/user",
-            params={"extention": extention, "fio": entry_fio.get()},
-            files={"file_data": chunk},
-        )
-    if res.status_code==201:
-        lab_201.place(x=230, y=100)
-        btn_back.place(x=200, y=200)
-
-    if res.status_code==422:
-        lab_422.place(x=230, y=100)
-        btn_back.place(x=200, y=200)
-
-
-
-    #root.destroy()
-    root2.mainloop()
 
 def detect_user():
     def back_to_main():
@@ -238,11 +280,11 @@ def detect_user():
     root3.title('Проверить')
     root3.resizable(False, False)
     root3.geometry('800x300')
-    img = tk.PhotoImage(file="/Users/valeriadudina/Downloads/back3.png")
+    img = tk.PhotoImage(file="back3.png")
     limg = tk.Label(root3, image=img)
     limg.place(x=0, y=0)
 
-    entry_photo_detect = tk.Entry(root3,width=30)
+    entry_photo_detect = tk.Entry(root3, width=30)
     open_button_detect = ttk.Button(
         root3,
         text='Открыть файл',
@@ -301,7 +343,7 @@ root.geometry('800x300')
 
 #background
 
-img = tk.PhotoImage(file="/Users/valeriadudina/Downloads/back3.png")
+img = tk.PhotoImage(file="back3.png")
 limg= tk.Label(root, image=img)
 limg.place(x=0, y=0)
 btn1=tk.Button(text="Добавить новые лица",
@@ -311,6 +353,17 @@ btn2 = tk.Button(text="Начать работу",
 
 btn1.place(x=150, y=150)
 btn2.place(x=400, y=150)
+
+def make_screenshot():
+    # otx, oty = map(int, root.geometry().split('+')[1:])
+    # width = int(root.geometry().split('x')[0]) + 50
+    # height = int(root.geometry().split('+')[0].split('x')[1]) + 3
+    # scr = ImageGrab.grab(bbox=(otx, oty, otx+width, oty+height))
+    x, y = root.winfo_rootx(), root.winfo_rooty()
+    w, h = root.winfo_width(), root.winfo_height()
+    pyautogui.screenshot('C:/Users/zotov/Videos/video/1.png', region=(x, y, w, h))
+    # scr.save('C:/Users/zotov/Videos/video/1.png')
+tk.Button(root, text = 'Сделать скриншот', command = make_screenshot).pack()
 
 
 root.mainloop()
