@@ -7,6 +7,9 @@ from core.default_values import BACKGROUND_PATH
 
 
 def upload_new():
+    def back2main():
+        window_upload_new.destroy()
+
     def select_file(filetype, entry_photo):
         def upload_archive():
             print(filetype)
@@ -55,10 +58,6 @@ def upload_new():
         )
         entry_photo.place(x=150, y=200)
         open_button.place(x=450, y=200)
-
-    def back2main():
-        window_upload_new.destroy()
-        # root.deiconify()
 
     window_upload_new = tk.Toplevel()
     window_upload_new.title("Добавление новых пользователей")
