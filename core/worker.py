@@ -67,8 +67,8 @@ class MyThread(threading.Thread):
                 showinfo("Найден пользователь", fio)
                 image_text = fio + "\n" + role
 
-                img = Image.new("RGB", (800, 200), color="red")
-                unicode_font = ImageFont.truetype(def_values.TEXT_FONT, 20)
+                img = Image.new("RGB", (900, 200), color="red")
+                unicode_font = ImageFont.truetype(def_values.TEXT_FONT, 18)
                 output_image = ImageDraw.Draw(img)
                 output_image.text(
                     (10, 10), image_text, fill=(255, 255, 0), font=unicode_font
