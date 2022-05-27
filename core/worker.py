@@ -65,7 +65,15 @@ class MyThread(threading.Thread):
                 # if old_user_fio != fio:
                 logger.info(f"Detected user: {fio}")
                 showinfo("Найден пользователь", fio)
-                image_text = fio + "\n" + role
+                # image_text = fio + "\n" + role
+                image_text = role
+                img = Image.new("RGB", (800, 200), color="red")
+                unicode_font = ImageFont.truetype(def_values.TEXT_FONT, 35)
+                output_image = ImageDraw.Draw(img)
+                avg_char_width = sum(unicode_font.getsize(char)[0] for char in ascii_letters) / len(ascii_letters)
+                max_char_count = int(img.size[0] * .98 / avg_char_width)
+                image_text = textwrap.fill(text=image_text, width=max_char_count)
+                image_text = fio + "\n" + image_text
 
                 img = Image.new("RGB", (900, 200), color="red")
                 unicode_font = ImageFont.truetype(def_values.TEXT_FONT, 18)
