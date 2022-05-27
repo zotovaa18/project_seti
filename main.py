@@ -75,7 +75,6 @@ def detect_user():
     detect_button.place(x=300, y=150)
     button_back.place(x=300, y=200)
 
-    # root.destroy()
     root3.mainloop()
 
 
