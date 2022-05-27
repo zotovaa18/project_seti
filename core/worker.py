@@ -113,9 +113,11 @@ def process_stream():
     window_detecting.geometry("800x300")
 
     label = tk.Label(window_detecting)
-    frameCnt = 70
+    frameCnt = 41
     frames = [
         tk.PhotoImage(file=def_values.PROCESSING_GIF, format="gif -index %i" % (i))
+        .zoom(2)
+        .subsample(3)
         for i in range(frameCnt)
     ]
     label.pack()
@@ -138,7 +140,7 @@ def run_gif(ind):
     if ind == frameCnt:
         ind = 0
     label.configure(image=frame)
-    window_detecting.after(80, run_gif, ind)
+    window_detecting.after(40, run_gif, ind)
 
 
 def back2main():
